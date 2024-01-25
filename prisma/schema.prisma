@@ -1,0 +1,28 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model event {
+  id_event       Int       @id @default(autoincrement())
+  describe_event String?   @db.Text
+  id_user        Int
+  end_time       String @db.VarChar(255)
+  start_time     String @db.VarChar(255)
+  user           user      @relation(fields: [id_user], references: [id_user], onDelete: NoAction, onUpdate: NoAction, map: "event_ibfk_1")
+
+  @@index([id_user], map: "id_user")
+}
+
+model user {
+  id_user  Int       @id @default(autoincrement())
+  name     String    @db.VarChar(255)
+  password String    @db.VarChar(255)
+  email    String    @db.VarChar(255)
+  birthAt  DateTime? @db.Date
+  event    event[]
+}
