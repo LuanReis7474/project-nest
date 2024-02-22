@@ -25,6 +25,11 @@ export class EventsController {
         return this.eventService.listById(id);
     }
 
+    @Get('user/:userId')
+    async listEventsByUser(@Param('userId', ParseIntPipe) userId: number): Promise<any> {
+        return this.eventService.listByUserId(userId);
+    }
+
     @Put(':id')
     async updateAll(@Body() data: UpdatePutEventsDTO, @Param('id', ParseIntPipe) id: number) {
         return this.eventService.updateAll(id, data);

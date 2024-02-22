@@ -44,6 +44,14 @@ export class EventsService {
         });
     }
 
+    async listByUserId(id: number) {
+        return this.prisma.event.findMany({
+            where: {
+                id_user: id,
+            }
+        });
+    }
+
     async updateAll(id: number, { startTime, endTime, describe, idUser }: UpdatePutEventsDTO) {
 
         return this.prisma.event.update({

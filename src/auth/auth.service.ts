@@ -22,19 +22,24 @@ export class AuthService {
             throw new UnauthorizedException('Usuário e/ou senha incorretos');
         }
 
-        return this.createToken(user);
+        let token = await this.createToken(user);
+
+        if (token) {
+            let objUser = { token: token, user: user }
+            return objUser;
+        }
+
     }
 
     async createToken(user: user) {
-        return {
-            acessToken: this.jwtService.sign({
-                sub: user.id_user,
-                name: user.name,
-                email: user.email
-            }, {
-                expiresIn: "24h"
-            })
-        }
+        return this.jwtService.sign({
+            sub: user.id_user,
+            name: user.name,
+            email: user.email
+        }, {
+            expiresIn: "24h"
+        })
+
     }
 
     async checkToken(token: string) {
